@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/university
+    username: postgres
+    password: helloworld
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+application:
+  security:
+    jwt:
+      secret-key: 00cff40430e9f345d550274c68bdb415ee8f36aaf7a1aa666d58d264b12ec444
+      expiration: 86400000 # a day
+      refresh-token:
+        expiration: 604800000 # 7 days
+
