@@ -1,5 +1,10 @@
 package com.example.projectcourse4.auth;
 
+import com.example.projectcourse4.entity.Customer;
+import com.example.projectcourse4.entity.Supplier;
+import com.example.projectcourse4.repository.CustomerRepository;
+import com.example.projectcourse4.repository.SupplierRepository;
+import com.example.projectcourse4.roles.Role;
 import com.example.projectcourse4.token.Token;
 import com.example.projectcourse4.token.TokenRepository;
 import com.example.projectcourse4.token.TokenType;
@@ -17,11 +22,15 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
   private final UserRepository repository;
+  private final CustomerRepository customerRepository;
+  private final SupplierRepository supplierRepository;
   private final TokenRepository tokenRepository;
   private final PasswordEncoder passwordEncoder;
   private final JwtService jwtService;
@@ -37,32 +46,54 @@ public class AuthenticationService {
         .password(passwordEncoder.encode(request.getPassword()))
         .role(request.getRole())
         .build();
+
     var savedUser = repository.save(user);
-    var jwtToken = jwtService.generateToken(user);
-    var refreshToken = jwtService.generateRefreshToken(user);
+    Map<String, Object> extraClaims = new HashMap<>();
+    extraClaims.put("role", user.getRole());
+    var jwtToken = jwtService.generateToken(extraClaims,user);
+//    var refreshToken = jwtService.generateRefreshToken(user);
+    if(request.getRole().equals(Role.SUPPLIER)){
+      var supplier = Supplier.builder()
+              .supplierEmail(request.getEmail())
+              .userId(repository.findUserByUsername(user.getUsername()).get().getUserId())
+              .contactPerson(Long.valueOf(request.getPhone_number()))
+              .supplierName(request.getUsername())
+              .build();
+      supplierRepository.save(supplier);
+    } else {
+      var customer = Customer.builder()
+              .customerEmail(request.getEmail())
+              .customerName(request.getUsername())
+              .customerPhoneNumber(Long.valueOf(request.getPhone_number()))
+              .userId(repository.findUserByUsername(user.getUsername()).get().getUserId())
+              .build();
+      customerRepository.save(customer);
+    }
     saveUserToken(savedUser, jwtToken);
     return AuthenticationResponse.builder()
         .accessToken(jwtToken)
-            .refreshToken(refreshToken)
+//            .refreshToken(refreshToken)
         .build();
   }
 
   public AuthenticationResponse authenticate(AuthenticationRequest request) {
     authenticationManager.authenticate(
         new UsernamePasswordAuthenticationToken(
-            request.getEmail(),
+            request.getUsername(),
             request.getPassword()
         )
     );
-    var user = repository.findByEmail(request.getEmail())
+    var user = repository.findUserByUsername(request.getUsername())
         .orElseThrow();
-    var jwtToken = jwtService.generateToken(user);
-    var refreshToken = jwtService.generateRefreshToken(user);
+    Map<String, Object> extraClaims = new HashMap<>();
+    extraClaims.put("role", user.getRole());
+    var jwtToken = jwtService.generateToken(extraClaims,user);
+//    var refreshToken = jwtService.generateRefreshToken(user);
     revokeAllUserTokens(user);
     saveUserToken(user, jwtToken);
     return AuthenticationResponse.builder()
         .accessToken(jwtToken)
-            .refreshToken(refreshToken)
+//            .refreshToken(refreshToken)
         .build();
   }
 
@@ -101,7 +132,7 @@ public class AuthenticationService {
     refreshToken = authHeader.substring(7);
     userName = jwtService.extractUsername(refreshToken);
     if (userName != null) {
-      var user = this.repository.findByEmail(userName)
+      var user = this.repository.findUserByUsername(userName)
               .orElseThrow();
       if (jwtService.isTokenValid(refreshToken, user)) {
         var accessToken = jwtService.generateToken(user);
@@ -109,7 +140,7 @@ public class AuthenticationService {
         saveUserToken(user, accessToken);
         var authResponse = AuthenticationResponse.builder()
                 .accessToken(accessToken)
-                .refreshToken(refreshToken)
+//                .refreshToken(refreshToken)
                 .build();
         new ObjectMapper().writeValue(response.getOutputStream(), authResponse);
       }

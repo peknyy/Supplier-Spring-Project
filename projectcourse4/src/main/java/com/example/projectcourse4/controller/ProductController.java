@@ -15,7 +15,7 @@ import java.util.Optional;
 
 @Log
 @RestController
-@RequestMapping("/products")
+@RequestMapping("/api/v1/products")
 public class ProductController {
 
     private final ProductService productService;
@@ -30,7 +30,7 @@ public class ProductController {
         return productService.getAll();
     }
 
-    @GetMapping("/findByCustomerName/{productName}")
+    @GetMapping("/findByProductName/{productName}")
     public ResponseEntity<Optional<Product>> findByProductName (@PathVariable String productName) {
         return new ResponseEntity<Optional<Product>>(productService.findByProductName(productName), HttpStatus.OK);
     }

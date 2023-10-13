@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Log
 @RestController
-@RequestMapping("/groups")
+@RequestMapping("/api/v1/groups")
 public class GroupController {
 
     private final GroupService groupService;

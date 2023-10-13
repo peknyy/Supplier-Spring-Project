@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @Log
 @RestController
-@RequestMapping("/customers")
+@RequestMapping("/api/v1/customers")
 public class CustomerController {
 
     private final CustomerService customerService;
