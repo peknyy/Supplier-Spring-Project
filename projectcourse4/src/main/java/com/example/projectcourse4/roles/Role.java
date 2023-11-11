@@ -15,6 +15,7 @@ import static com.example.projectcourse4.roles.Permission.*;
 @RequiredArgsConstructor
 public enum Role {
 
+
     USER(Collections.emptySet()),
     ADMIN(
             Set.of(

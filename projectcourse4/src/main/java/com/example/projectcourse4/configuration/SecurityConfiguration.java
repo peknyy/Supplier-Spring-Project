@@ -22,7 +22,11 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-@EnableMethodSecurity()
+@EnableMethodSecurity(
+        prePostEnabled = true,
+        securedEnabled = true,
+        jsr250Enabled = true
+)
 public class SecurityConfiguration {
 
     private static final String[] WHITE_LIST_URL = {"/api/v1/auth/**",
@@ -47,7 +51,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(req ->
                         req.requestMatchers(WHITE_LIST_URL)
                                 .permitAll()
-                                .requestMatchers("/api/v1/suppliers/**").hasAnyRole("ADMIN", "SUPPLIER")
+//                                .requestMatchers("/api/v1/suppliers/**").hasAnyRole(ADMIN.name(), SUPPLIER.name())
 //                                .requestMatchers(GET, "/api/v1/suppliers/**").hasAnyAuthority(ADMIN_READ.name(), SUPPLIER_READ.name())
 //                                .requestMatchers(POST, "/api/v1/suppliers/**").hasAnyAuthority(ADMIN_CREATE.name(), SUPPLIER_CREATE.name())
 //                                .requestMatchers(PUT, "/api/v1/suppliers/**").hasAnyAuthority(ADMIN_UPDATE.name(), SUPPLIER_UPDATE.name())

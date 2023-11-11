@@ -1,5 +1,6 @@
 package com.example.projectcourse4.controller;
 
+import com.example.projectcourse4.DTO.ProductRequest;
 import com.example.projectcourse4.entity.Customer;
 import com.example.projectcourse4.entity.Order;
 import com.example.projectcourse4.entity.Product;
@@ -35,20 +36,20 @@ public class ProductController {
         return new ResponseEntity<Optional<Product>>(productService.findByProductName(productName), HttpStatus.OK);
     }
 
-    @DeleteMapping("/deleteProduct")
-    public void deleteProduct(Long productId) {
+    @DeleteMapping("/deleteProduct/{productId}")
+    public void deleteProduct(@PathVariable Long productId) {
         productService.deleteById(productId);
     }
 
     @PostMapping("/saveProduct")
     @ResponseBody
-    public Product addProduct(@RequestBody Product product) {
-        return productService.save(product);
+    public Product addProduct(@RequestHeader("Authorization") String authorizationHeader, @RequestBody ProductRequest product) {
+        return productService.save(authorizationHeader,product);
     }
 
-    @GetMapping("/updateProduct")
-    public Product updateProduct(@RequestBody Product product){
-        return productService.update(product);
+    @PutMapping("/updateProduct/{productId}")
+    public Product updateProduct(@PathVariable Long productId, @RequestHeader("Authorization") String authorizationHeader,@RequestBody ProductRequest product){
+        return productService.update(authorizationHeader,product, productId);
     }
 
     @GetMapping("/test")

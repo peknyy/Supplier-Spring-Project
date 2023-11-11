@@ -22,7 +22,7 @@ public class CustomerService {
     }
 
     public Optional<Customer> findByCustomerName(String customerName) {
-        return customerRepository.findByCustomerName(customerName);
+        return Optional.ofNullable(customerRepository.findByCustomerName(customerName));
     }
     public Optional<Customer> findByCustomerId(Long customerId) {
         return customerRepository.findById(customerId);

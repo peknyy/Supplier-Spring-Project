@@ -1,6 +1,7 @@
 package com.example.projectcourse4.entity;
 
 import com.example.projectcourse4.token.Token;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -9,7 +10,7 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
+
 @Builder
 @Getter
 @Setter
@@ -32,6 +33,7 @@ public class Supplier {
     @Column(name = "user_id", nullable = false)
     private Long userId;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "supplier_id")
     private List<Product> products;
 }

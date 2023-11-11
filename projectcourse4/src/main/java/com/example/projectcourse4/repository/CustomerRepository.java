@@ -1,20 +1,15 @@
 package com.example.projectcourse4.repository;
 
 import com.example.projectcourse4.entity.Customer;
-import com.example.projectcourse4.entity.Group;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-
-import java.util.Optional;
 
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
     // тут jpa под капотом создас за вас запрос кидающий в БД
     // то есть вы просто пишите имя метода и jpa понимает какой запрос строить
-    Optional<Customer> findByCustomerName(String customerName);
+    Customer findByCustomerName(String customerName);
 
 
     //    // для проверки email username

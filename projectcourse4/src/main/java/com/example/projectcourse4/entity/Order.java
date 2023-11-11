@@ -1,9 +1,12 @@
 package com.example.projectcourse4.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.sql.Date;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -22,11 +25,19 @@ public class Order {
     @Column(name = "order_date", nullable = false)
     private Date orderDate;
 
-    @Column(name = "customer_id", nullable = false)
-    private Long customerId;
+    @JsonBackReference
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "customer_id")
+    private Customer customer_id;
 
     @Column(name = "status", nullable = false)
     private String status;
 
+    @JsonManagedReference
+    @ManyToMany
+    @JoinTable(name = "product_order_box",
+            joinColumns = @JoinColumn(name = "order_id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id"))
+    private List<Product> products;
 
 }

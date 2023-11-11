@@ -84,7 +84,7 @@ public class AuthenticationService {
         )
     );
     var user = repository.findUserByUsername(request.getUsername())
-        .orElseThrow();
+        .orElseThrow(null);
     Map<String, Object> extraClaims = new HashMap<>();
     extraClaims.put("role", user.getRole());
     var jwtToken = jwtService.generateToken(extraClaims,user);

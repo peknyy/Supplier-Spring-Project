@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -21,8 +22,16 @@ public class SupplierService {
         this.supplierRepository = supplierRepository;
     }
 
-    public Optional<Supplier> findBySupplierName(String supplierName) {
+    public Supplier findBySupplierName(String supplierName) {
         return supplierRepository.findBySupplierName(supplierName);
+    }
+
+    public List<Product> findAllProductsForSupplier(String supplierName) {
+        if (supplierRepository.findBySupplierName(supplierName) != null) {
+            Supplier supplier = supplierRepository.findBySupplierName(supplierName);
+            return supplier.getProducts();
+        }
+        else return null;
     }
     public Optional<Supplier> findBySupplierId(Long supplierId) {
         return supplierRepository.findById(supplierId);

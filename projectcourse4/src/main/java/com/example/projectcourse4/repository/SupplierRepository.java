@@ -1,18 +1,15 @@
 package com.example.projectcourse4.repository;
 
-import com.example.projectcourse4.entity.Order;
 import com.example.projectcourse4.entity.Supplier;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-
-import java.util.Optional;
 
 @Repository
 public interface SupplierRepository extends JpaRepository<Supplier, Long> {
 
     // тут jpa под капотом создас за вас запрос кидающий в БД
     // то есть вы просто пишите имя метода и jpa понимает какой запрос строить
-    Optional<Supplier> findBySupplierName(String supplierName);
+    Supplier findBySupplierName(String supplierName);
 
 
     //    // для проверки email username

@@ -1,12 +1,14 @@
 package com.example.projectcourse4.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @Builder
 @Getter
 @Setter
@@ -29,5 +31,7 @@ public class Customer {
     @Column(name = "user_id", nullable = false)
     private Long userId;
 
-
+    @JsonManagedReference
+    @OneToMany(mappedBy = "customer_id")
+    private List<Order> orders;
 }

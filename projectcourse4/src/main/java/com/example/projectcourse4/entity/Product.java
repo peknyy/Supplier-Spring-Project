@@ -1,12 +1,16 @@
 package com.example.projectcourse4.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
+
 @Builder
 @Getter
 @Setter
@@ -26,6 +30,7 @@ public class Product {
     @Column(name = "price", nullable = false)
     private int productPrice;
 
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "supplier_id")
     private Supplier supplier_id;
@@ -37,7 +42,11 @@ public class Product {
     private Long category;
 
     @Column(name = "available", nullable = false)
-    private Long available;
+    private Boolean available;
+
+//    @JsonBackReference
+//    @ManyToMany(mappedBy = "products")
+//    private List<Order> orders;
 
 
 }
