@@ -10,6 +10,7 @@ import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -36,22 +37,26 @@ public class ProductController {
         return new ResponseEntity<Optional<Product>>(productService.findByProductName(productName), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','SUPPLIER')")
     @DeleteMapping("/deleteProduct/{productId}")
     public void deleteProduct(@PathVariable Long productId) {
         productService.deleteById(productId);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','SUPPLIER')")
     @PostMapping("/saveProduct")
     @ResponseBody
     public Product addProduct(@RequestHeader("Authorization") String authorizationHeader, @RequestBody ProductRequest product) {
         return productService.save(authorizationHeader,product);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','SUPPLIER')")
     @PutMapping("/updateProduct/{productId}")
     public Product updateProduct(@PathVariable Long productId, @RequestHeader("Authorization") String authorizationHeader,@RequestBody ProductRequest product){
         return productService.update(authorizationHeader,product, productId);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','SUPPLIER')")
     @GetMapping("/test")
     public String test(){
         return "test";

@@ -1,5 +1,6 @@
 package com.example.projectcourse4.service;
 
+import com.example.projectcourse4.DTO.CustomerRequest;
 import com.example.projectcourse4.entity.Customer;
 import com.example.projectcourse4.entity.Group;
 import com.example.projectcourse4.repository.CustomerRepository;
@@ -32,12 +33,24 @@ public class CustomerService {
         return customerRepository.findAll();
     }
 
-    public Customer save(Customer customer) {
-        return customerRepository.save(customer);
+    public Customer save(CustomerRequest customer) {
+        Customer customer1 = Customer.builder()
+                .customerEmail(customer.getCustomerEmail())
+                .customerName(customer.getCustomerName())
+                .customerPhoneNumber(customer.getCustomerPhoneNumber())
+                .customerId(customer.getUserId())
+                .build();
+        return customerRepository.save(customer1);
     }
 
-    public Customer update(Customer customer) {
-        return customerRepository.save(customer);
+    public Customer update(CustomerRequest customer) {
+        Customer customer1 = Customer.builder()
+                .customerEmail(customer.getCustomerEmail())
+                .customerName(customer.getCustomerName())
+                .customerPhoneNumber(customer.getCustomerPhoneNumber())
+                .customerId(customer.getUserId())
+                .build();
+        return customerRepository.save(customer1);
     }
 
 //    public void delete(Customer customer) {

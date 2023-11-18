@@ -7,6 +7,7 @@ import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -39,6 +40,7 @@ public class OrderController {
     }
 
     @PostMapping("/saveOrder")
+    @PreAuthorize("hasRole('USER')")
     @ResponseBody
     public Order addOrder(@RequestHeader("Authorization") String authorizationHeader,@RequestBody OrderRequest orderRequest) {
         return orderService.save(authorizationHeader,orderRequest);
