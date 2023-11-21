@@ -48,9 +48,7 @@ public class User implements UserDetails {
     @Column(name = "password", nullable = false, length = 255)
     private String password;
 
-    @Basic
-    @Column(name = "group_id", nullable = false, length = 255)
-    private Integer groupId;
+
 
     @Enumerated(EnumType.STRING)
     private Role role;

@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,50 +18,79 @@ public class SupplierService {
     private final Logger logger = LoggerFactory.getLogger(SupplierService.class);
     private final SupplierRepository supplierRepository;
 
-    @Autowired // constructor inject
+    @Autowired
     public SupplierService(SupplierRepository supplierRepository) {
         this.supplierRepository = supplierRepository;
     }
 
+    @Transactional(readOnly = true)
     public Supplier findBySupplierName(String supplierName) {
-        return supplierRepository.findBySupplierName(supplierName);
-    }
-
-    public List<Product> findAllProductsForSupplier(String supplierName) {
-        if (supplierRepository.findBySupplierName(supplierName) != null) {
-            Supplier supplier = supplierRepository.findBySupplierName(supplierName);
-            return supplier.getProducts();
+        try {
+            return supplierRepository.findBySupplierName(supplierName);
+        } catch (Exception e) {
+            logger.error("Error finding supplier by name: {}", e.getMessage());
+            throw new RuntimeException("Error finding supplier by name", e);
         }
-        else return null;
     }
+
+    @Transactional(readOnly = true)
+    public List<Product> findAllProductsForSupplier(String supplierName) {
+        try {
+            Supplier supplier = supplierRepository.findBySupplierName(supplierName);
+            return supplier != null ? supplier.getProducts() : null;
+        } catch (Exception e) {
+            logger.error("Error finding products for supplier: {}", e.getMessage());
+            throw new RuntimeException("Error finding products for supplier", e);
+        }
+    }
+
+    @Transactional(readOnly = true)
     public Optional<Supplier> findBySupplierId(Long supplierId) {
-        return supplierRepository.findById(supplierId);
+        try {
+            return supplierRepository.findById(supplierId);
+        } catch (Exception e) {
+            logger.error("Error finding supplier by ID: {}", e.getMessage());
+            throw new RuntimeException("Error finding supplier by ID", e);
+        }
     }
 
+    @Transactional
     public Iterable<Supplier> getAll() {
-        return supplierRepository.findAll();
+        try {
+            return supplierRepository.findAll();
+        } catch (Exception e) {
+            logger.error("Error getting all suppliers: {}", e.getMessage());
+            throw new RuntimeException("Error getting all suppliers", e);
+        }
     }
 
+    @Transactional
     public Supplier save(Supplier supplier) {
-        return supplierRepository.save(supplier);
+        try {
+            return supplierRepository.save(supplier);
+        } catch (Exception e) {
+            logger.error("Error saving supplier: {}", e.getMessage());
+            throw new RuntimeException("Error saving supplier", e);
+        }
     }
 
+    @Transactional
     public Supplier update(Supplier supplier) {
-        return supplierRepository.save(supplier);
+        try {
+            return supplierRepository.save(supplier);
+        } catch (Exception e) {
+            logger.error("Error updating supplier: {}", e.getMessage());
+            throw new RuntimeException("Error updating supplier", e);
+        }
     }
 
-//    public void delete(Customer customer) {
-//        try {
-//            if (customerRepository.existsBygroupName(customer.getCustomerName())) {
-//                customerRepository.delete(customer);
-//            }
-//        } catch (Exception e) {
-//            logger.error(e.getMessage());
-//        }
-//    }
-
+    @Transactional
     public void deleteById(Long id) {
-        supplierRepository.deleteById(id);
+        try {
+            supplierRepository.deleteById(id);
+        } catch (Exception e) {
+            logger.error("Error deleting supplier by ID: {}", e.getMessage());
+            throw new RuntimeException("Error deleting supplier by ID", e);
+        }
     }
-
 }

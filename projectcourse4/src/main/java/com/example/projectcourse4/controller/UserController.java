@@ -34,19 +34,22 @@ public class UserController {
     }
 
     @DeleteMapping("/deleteUser")
-    public void deleteUser(Long userId) {
+    public HttpStatus deleteUser(Long userId) {
         userService.deleteById(userId);
+        return HttpStatus.OK;
     }
 
     @PostMapping("/saveUser")
     @ResponseBody
-    public User addUser(@RequestBody User user) {
-        return userService.save(user);
+    public HttpStatus addUser(@RequestBody User user) {
+         userService.save(user);
+        return HttpStatus.CREATED;
     }
 
     @GetMapping("/updateUser")
-    public User updateUsers(@RequestBody User user){
-        return userService.update(user);
+    public HttpStatus updateUser(@RequestBody User user){
+         userService.update(user);
+        return HttpStatus.OK;
     }
 
     @GetMapping("/test")

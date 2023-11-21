@@ -2,7 +2,6 @@ package com.example.projectcourse4.controller;
 
 import com.example.projectcourse4.DTO.CustomerRequest;
 import com.example.projectcourse4.entity.Customer;
-import com.example.projectcourse4.entity.User;
 import com.example.projectcourse4.service.CustomerService;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,23 +32,38 @@ public class CustomerController {
     @PreAuthorize("hasAnyRole('ADMIN','SUPPLIER')")
     @GetMapping("/findByCustomerName/{customerName}")
     public ResponseEntity<Optional<Customer>> findByCustomerName(@PathVariable String customerName) {
-        return new ResponseEntity<Optional<Customer>>(customerService.findByCustomerName(customerName), HttpStatus.OK);
+        Optional<Customer> optionalCustomer = customerService.findByCustomerName(customerName);
+
+        if (optionalCustomer.isPresent()) {
+            return new ResponseEntity<Optional<Customer>>(optionalCustomer, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
     }
 
 
-    @DeleteMapping("/deleteCustomer")
-    public void deleteCustomer(Long customerId) {
+    @DeleteMapping("/deleteCustomer/{customerId}")
+    public ResponseEntity<Optional<Customer>> deleteCustomer(@PathVariable Long customerId) {
         customerService.deleteById(customerId);
+        return new ResponseEntity<Optional<Customer>>((Optional<Customer>) null, HttpStatus.NOT_FOUND);
     }
 
     @PostMapping("/saveCustomer")
+    public HttpStatus addCustomer(@RequestBody CustomerRequest customer) {
+        if (customerService.save(customer) != null){
+            return HttpStatus.CREATED;
+        }
 
-    public Customer addCustomer(@RequestBody CustomerRequest customer) {
-        return customerService.save(customer);
+        return HttpStatus.NOT_FOUND;
     }
     @PutMapping("/updateCustomer")
-    public Customer updateCustomer(@RequestBody CustomerRequest customer) {
-        return customerService.update(customer);
+    public HttpStatus updateCustomer(@RequestBody CustomerRequest customer) {
+        if (customerService.update(customer) != null){
+            return HttpStatus.OK;
+        }
+
+        return HttpStatus.NOT_FOUND;
     }
 
     @GetMapping("/test")

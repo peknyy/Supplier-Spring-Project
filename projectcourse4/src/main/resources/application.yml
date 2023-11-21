@@ -11,6 +11,12 @@ spring:
         format_sql: true
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
+  sql:
+    init:
+      schema-locations: "classpath*:db.postgres/schema.sql"
+      data-locations: "classpath*:db.postgres/data.sql"
+      mode: always
+
 
 application:
   security:

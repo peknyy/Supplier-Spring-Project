@@ -25,41 +25,46 @@ public class OrderController {
     }
 
     @GetMapping
-    public Iterable<Order> getAll () {
+    public Iterable<Order> getAll() {
         return orderService.getAll();
     }
 
     @GetMapping("/findByOrderId/{orderId}")
-    public ResponseEntity<Optional<Order>> findByOrderId (@PathVariable String orderId) {
-        return new ResponseEntity<Optional<Order>>(orderService.findByOrderId(Long.valueOf(orderId)),HttpStatus.OK);
+    public ResponseEntity<Optional<Order>> findByOrderId(@PathVariable String orderId) {
+        return new ResponseEntity<Optional<Order>>(orderService.findByOrderId(Long.valueOf(orderId)), HttpStatus.OK);
     }
 
     @DeleteMapping("/deleteOrder/{orderId}")
-    public void deleteOrder(@PathVariable Long orderId) {
+    public HttpStatus deleteOrder(@PathVariable Long orderId) {
         orderService.deleteById(orderId);
+        return HttpStatus.OK;
     }
 
     @PostMapping("/saveOrder")
     @PreAuthorize("hasRole('USER')")
     @ResponseBody
-    public Order addOrder(@RequestHeader("Authorization") String authorizationHeader,@RequestBody OrderRequest orderRequest) {
-        return orderService.save(authorizationHeader,orderRequest);
+    public HttpStatus addOrder(@RequestHeader("Authorization") String authorizationHeader, @RequestBody OrderRequest orderRequest) {
+        if (orderService.save(authorizationHeader, orderRequest) != null){
+            return HttpStatus.CREATED;
+        }
+        return HttpStatus.NOT_FOUND;
     }
 
     @PutMapping("/addProductInOrder/{orderId}/{productId}")
-    public Order addProductInOrder(@PathVariable("orderId") Long orderId,@PathVariable("productId") Long productId ,  @RequestBody OrderRequest orderRequest){
+    public HttpStatus addProductInOrder(@PathVariable("orderId") Long orderId, @PathVariable("productId") Long productId, @RequestBody OrderRequest orderRequest) {
         orderService.addProductInBox(orderId, productId);
-        return orderService.updateStatus(orderId , orderRequest);
+        orderService.updateStatus(orderId, orderRequest);
+        return HttpStatus.OK;
     }
 
     @PutMapping("/deleteProductInOrder/{orderId}/{productId}")
-    public Order deleteProductInOrder(@PathVariable("orderId") Long orderId,@PathVariable("productId") Long productId ,  @RequestBody OrderRequest orderRequest){
+    public HttpStatus deleteProductInOrder(@PathVariable("orderId") Long orderId, @PathVariable("productId") Long productId, @RequestBody OrderRequest orderRequest) {
         orderService.deleteProductInBox(orderId, productId);
-        return orderService.updateStatus(orderId , orderRequest);
+        return HttpStatus.OK;
     }
 
     @GetMapping("/test")
-    public String test(){
+    public String test() {
         return "test";
     }
 

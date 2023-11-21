@@ -18,11 +18,7 @@ import java.util.List;
 @RequestMapping("/api/v1/suppliers")
 @PreAuthorize("hasAnyRole('ADMIN','SUPPLIER')")
 public class SupplierController {
-//    public boolean hasUserRole() {
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        return authentication.getAuthorities().stream()
-//                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("SUPPLIER"));
-//    }3
+
 
     private final SupplierService supplierService;
     private final JwtService jwtService;
@@ -46,7 +42,7 @@ public class SupplierController {
     @GetMapping("/findAllProductsForSupplier/{supplierName}")
     public ResponseEntity<List<Product>> findAllProductsForSupplier ( @PathVariable String supplierName) {
 
-            return new ResponseEntity<List<Product>>(supplierService.findAllProductsForSupplier(supplierName), HttpStatus.OK);
+        return new ResponseEntity<List<Product>>(supplierService.findAllProductsForSupplier(supplierName), HttpStatus.OK);
 
     }
 
@@ -62,8 +58,9 @@ public class SupplierController {
 //    }
 
     @PutMapping("/updateSupplier")
-    public Supplier updateSupplier(@RequestHeader("Authorization") String authorizationHeader, @RequestBody Supplier supplier){
-        return supplierService.update(supplier);
+    public HttpStatus updateSupplier(@RequestHeader("Authorization") String authorizationHeader, @RequestBody Supplier supplier){
+        supplierService.update(supplier);
+        return HttpStatus.OK;
     }
 
 

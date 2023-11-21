@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -19,22 +20,27 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
+    @Transactional(readOnly = true)
     public Optional<User> findByUsername(String username) {
         return userRepository.findUserByUsername(username);
     }
 
+    @Transactional
     public Iterable<User> getAll() {
         return userRepository.findAll();
     }
 
+    @Transactional
     public User save(User user) {
         return userRepository.save(user);
     }
 
+    @Transactional
     public User update(User user) {
         return userRepository.save(user);
     }
 
+    @Transactional
     public void delete(User user) {
         try {
             if (userRepository.existsByUsername(user.getUsername())) {
@@ -45,6 +51,7 @@ public class UserService {
         }
     }
 
+    @Transactional
     public void deleteById(Long id) {
         userRepository.deleteById(id);
     }
