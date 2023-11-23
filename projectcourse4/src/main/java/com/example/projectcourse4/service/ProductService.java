@@ -103,7 +103,7 @@ public class ProductService {
             productRepository.deleteById(id);
         } catch (Exception e) {
             logger.error("Error deleting product: {}", e.getMessage());
-            throw new RuntimeException("Error deleting product", e);
+
         }
     }
 }

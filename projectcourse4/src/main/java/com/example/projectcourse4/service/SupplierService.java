@@ -29,7 +29,7 @@ public class SupplierService {
             return supplierRepository.findBySupplierName(supplierName);
         } catch (Exception e) {
             logger.error("Error finding supplier by name: {}", e.getMessage());
-            throw new RuntimeException("Error finding supplier by name", e);
+            return null;
         }
     }
 
@@ -40,7 +40,7 @@ public class SupplierService {
             return supplier != null ? supplier.getProducts() : null;
         } catch (Exception e) {
             logger.error("Error finding products for supplier: {}", e.getMessage());
-            throw new RuntimeException("Error finding products for supplier", e);
+            return null;
         }
     }
 
@@ -50,7 +50,7 @@ public class SupplierService {
             return supplierRepository.findById(supplierId);
         } catch (Exception e) {
             logger.error("Error finding supplier by ID: {}", e.getMessage());
-            throw new RuntimeException("Error finding supplier by ID", e);
+            return null;
         }
     }
 
@@ -60,7 +60,7 @@ public class SupplierService {
             return supplierRepository.findAll();
         } catch (Exception e) {
             logger.error("Error getting all suppliers: {}", e.getMessage());
-            throw new RuntimeException("Error getting all suppliers", e);
+            return null;
         }
     }
 
@@ -70,7 +70,7 @@ public class SupplierService {
             return supplierRepository.save(supplier);
         } catch (Exception e) {
             logger.error("Error saving supplier: {}", e.getMessage());
-            throw new RuntimeException("Error saving supplier", e);
+            return null;
         }
     }
 
@@ -80,8 +80,8 @@ public class SupplierService {
             return supplierRepository.save(supplier);
         } catch (Exception e) {
             logger.error("Error updating supplier: {}", e.getMessage());
-            throw new RuntimeException("Error updating supplier", e);
         }
+        return null;
     }
 
     @Transactional
@@ -90,7 +90,6 @@ public class SupplierService {
             supplierRepository.deleteById(id);
         } catch (Exception e) {
             logger.error("Error deleting supplier by ID: {}", e.getMessage());
-            throw new RuntimeException("Error deleting supplier by ID", e);
         }
     }
 }

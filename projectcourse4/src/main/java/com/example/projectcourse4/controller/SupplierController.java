@@ -36,14 +36,18 @@ public class SupplierController {
 
     @GetMapping("/findBySupplierName/{supplierName}")
     public ResponseEntity<Supplier> findBySupplierName (@PathVariable String supplierName) {
-        return new ResponseEntity<Supplier>(supplierService.findBySupplierName(supplierName),HttpStatus.OK);
+        if(supplierService.findBySupplierName(supplierName) != null)
+            return new ResponseEntity<Supplier>(supplierService.findBySupplierName(supplierName), HttpStatus.OK);
+        else
+            return new ResponseEntity<Supplier>(supplierService.findBySupplierName(supplierName), HttpStatus.NOT_FOUND);
     }
 
     @GetMapping("/findAllProductsForSupplier/{supplierName}")
     public ResponseEntity<List<Product>> findAllProductsForSupplier ( @PathVariable String supplierName) {
-
-        return new ResponseEntity<List<Product>>(supplierService.findAllProductsForSupplier(supplierName), HttpStatus.OK);
-
+        if(supplierService.findAllProductsForSupplier(supplierName) != null)
+            return new ResponseEntity<List<Product>>(supplierService.findAllProductsForSupplier(supplierName), HttpStatus.OK);
+        else
+            return new ResponseEntity<List<Product>>(supplierService.findAllProductsForSupplier(supplierName), HttpStatus.NOT_FOUND);
     }
 
 //    @DeleteMapping("/deleteSupplier")
@@ -59,8 +63,10 @@ public class SupplierController {
 
     @PutMapping("/updateSupplier")
     public HttpStatus updateSupplier(@RequestHeader("Authorization") String authorizationHeader, @RequestBody Supplier supplier){
-        supplierService.update(supplier);
-        return HttpStatus.OK;
+        if(supplierService.update(supplier) != null)
+            return HttpStatus.OK;
+        else
+            return HttpStatus.NOT_FOUND;
     }
 
 
