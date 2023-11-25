@@ -77,7 +77,7 @@ class SupplierControllerTest {
                 .category(1L)
                 .available(true)
                 .build();
-        // Assuming you have a method in SupplierService that returns a list of products for a given supplier name
+
         List<Product> mockProducts = Arrays.asList(mockProduct1,mockProduct2);
         when(supplierService.findAllProductsForSupplier("TestSupplier")).thenReturn(mockProducts);
 
@@ -88,6 +88,6 @@ class SupplierControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].productName").exists());
     }
 
-    // Add more test methods for other endpoints as needed
+
 }
 

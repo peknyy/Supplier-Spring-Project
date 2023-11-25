@@ -91,5 +91,5 @@ public class SupplierRepoTest {
         assertEquals("TestSupplier", foundSupplier.get().getSupplierName());
     }
 
-    // Add more test methods for other scenarios (update, delete, etc.)
+
 }

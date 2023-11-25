@@ -86,7 +86,7 @@ public class OrderControllerTest {
     @WithMockUser(username = "testUser", roles = "USER")
     public void testAddOrder() throws Exception {
         Order mockOrder = new Order(); // Set up mock data
-        // Mock behavior for orderService.save()
+
         Mockito.when(orderService.save(ArgumentMatchers.anyString(), ArgumentMatchers.any()))
                 .thenReturn(mockOrder);
 
@@ -97,7 +97,7 @@ public class OrderControllerTest {
                         .content("{\"orderDate\":\"2023-01-01\",\"status\":\"PENDING\",\"products\":[]}")
                         .with(SecurityMockMvcRequestPostProcessors.csrf()))
                 .andExpect(MockMvcResultMatchers.status().isOk());
-        // Add assertions based on your actual implementation
+
     }
     // ...
 }

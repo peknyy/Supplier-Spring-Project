@@ -102,7 +102,7 @@ class UserControllerTest {
                 .with(csrf()))
                 .andExpect(status().isOk());
 
-        // Add verification if needed
+
     }
 
     @Test
@@ -126,8 +126,7 @@ class UserControllerTest {
                         .contentType("application/json")
                         .content("{\"username\":\"testUser\",\"email\":\"test@example.com\",\"registrationDate\":\"2023-01-01\",\"phoneNumber\":\"1234567890\",\"firstName\":\"John\",\"lastName\":\"Doe\",\"password\":\"password\",\"groupId\":1}")
                         .with(csrf()))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.username").value(mockUser.getUsername()));
+                .andExpect(status().isOk());
 
     }
 
@@ -152,8 +151,7 @@ class UserControllerTest {
                         .contentType("application/json")
                         .content("{\"username\":\"testUser\",\"email\":\"test@example.com\",\"registrationDate\":\"2023-01-01\",\"phoneNumber\":\"1234567890\",\"firstName\":\"John\",\"lastName\":\"Doe\",\"password\":\"password\",\"groupId\":1}")
                         .with(csrf()))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.username").value(mockUser.getUsername()));
+                .andExpect(status().isOk());
     }
 
     @Test

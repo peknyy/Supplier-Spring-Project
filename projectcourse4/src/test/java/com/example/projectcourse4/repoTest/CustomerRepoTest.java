@@ -29,17 +29,16 @@ public class CustomerRepoTest {
         customer.setCustomerName("TestName");
         customer.setCustomerEmail("test@example.com");
         customer.setCustomerPhoneNumber(1234567890L);
-        // установите другие значения, если есть
+
 
         // Act
         Customer savedCustomer = customerRepository.save(customer);
 
         // Assert
-        assertNotNull(savedCustomer.getCustomerId()); // удостоверьтесь, что идентификатор присвоен
+        assertNotNull(savedCustomer.getCustomerId());
         assertEquals("TestName", savedCustomer.getCustomerName());
         assertEquals("test@example.com", savedCustomer.getCustomerEmail());
         assertEquals(1234567890L, savedCustomer.getCustomerPhoneNumber());
-        // выполните другие проверки, если необходимо
 
     }
 }
