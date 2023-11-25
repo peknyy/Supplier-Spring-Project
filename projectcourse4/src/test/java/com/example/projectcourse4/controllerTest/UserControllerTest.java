@@ -51,7 +51,6 @@ class UserControllerTest {
                 .firstName("John")
                 .lastName("Doe")
                 .password("password")
-                .groupId(1)
                 .role(Role.ADMIN)
                 .build();
         when(userService.getAll()).thenReturn(Collections.singletonList(mockUser));
@@ -73,7 +72,6 @@ class UserControllerTest {
                 .firstName("John")
                 .lastName("Doe")
                 .password("password")
-                .groupId(1)
                 .role(Role.ADMIN)
                 .build();
 
@@ -96,7 +94,6 @@ class UserControllerTest {
                 .firstName("John")
                 .lastName("Doe")
                 .password("password")
-                .groupId(1)
                 .role(Role.ADMIN)
                 .build();
 
@@ -120,7 +117,6 @@ class UserControllerTest {
                 .firstName("John")
                 .lastName("Doe")
                 .password("password")
-                .groupId(1)
                 .role(Role.ADMIN)
                 .build();
 
@@ -147,7 +143,6 @@ class UserControllerTest {
                 .firstName("John")
                 .lastName("Doe")
                 .password("password")
-                .groupId(1)
                 .role(Role.ADMIN)
                 .build();
 

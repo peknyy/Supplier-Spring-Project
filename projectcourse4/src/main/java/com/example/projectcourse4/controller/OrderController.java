@@ -57,7 +57,7 @@ public class OrderController {
         return HttpStatus.OK;
     }
 
-    @PutMapping("/deleteProductInOrder/{orderId}/{productId}")
+    @DeleteMapping("/deleteProductInOrder/{orderId}/{productId}")
     public HttpStatus deleteProductInOrder(@PathVariable("orderId") Long orderId, @PathVariable("productId") Long productId, @RequestBody OrderRequest orderRequest) {
         orderService.deleteProductInBox(orderId, productId);
         return HttpStatus.OK;

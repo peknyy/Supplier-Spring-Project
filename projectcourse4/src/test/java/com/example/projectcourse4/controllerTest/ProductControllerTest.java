@@ -63,7 +63,7 @@ public class ProductControllerTest {
                 .available(true)
                 .build();
 
-        Mockito.when(productService.getAll()).thenReturn(List.of(mockProduct1, mockProduct2));
+        Mockito.when(productService.getAll()).thenReturn(Optional.of(List.of(mockProduct1, mockProduct2)));
 
         mockMvc.perform(MockMvcRequestBuilders
                         .get("/api/v1/products")
