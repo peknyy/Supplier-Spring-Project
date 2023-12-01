@@ -63,9 +63,9 @@ public class AuthenticationService {
     } else {
       var customer = Customer.builder()
               .customerEmail(request.getEmail())
+              .userId(repository.findUserByUsername(user.getUsername()).get().getUserId())
               .customerName(request.getUsername())
               .customerPhoneNumber(Long.valueOf(request.getPhone_number()))
-              .userId(repository.findUserByUsername(user.getUsername()).get().getUserId())
               .build();
       customerRepository.save(customer);
     }
@@ -140,7 +140,7 @@ public class AuthenticationService {
         saveUserToken(user, accessToken);
         var authResponse = AuthenticationResponse.builder()
                 .accessToken(accessToken)
-//                .refreshToken(refreshToken)
+               .refreshToken(refreshToken)
                 .build();
         new ObjectMapper().writeValue(response.getOutputStream(), authResponse);
       }

@@ -43,11 +43,11 @@ public class CustomerController {
     }
 
 
-    @DeleteMapping("/deleteCustomer/{customerId}")
-    public ResponseEntity<Optional<Customer>> deleteCustomer(@PathVariable Long customerId) {
-        customerService.deleteById(customerId);
-        return new ResponseEntity<Optional<Customer>>((Optional<Customer>) null, HttpStatus.NOT_FOUND);
-    }
+//    @DeleteMapping("/deleteCustomer/{customerId}")
+//    public ResponseEntity<Optional<Customer>> deleteCustomer(@PathVariable Long customerId) {
+//        customerService.deleteById(customerId);
+//        return new ResponseEntity<Optional<Customer>>((Optional<Customer>) null, HttpStatus.NOT_FOUND);
+//    }
 
     @PostMapping("/saveCustomer")
     public HttpStatus addCustomer(@RequestBody CustomerRequest customer) {

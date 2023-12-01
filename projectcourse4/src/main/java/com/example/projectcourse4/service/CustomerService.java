@@ -61,11 +61,11 @@ public class CustomerService {
                     .customerEmail(customer.getCustomerEmail())
                     .customerName(customer.getCustomerName())
                     .customerPhoneNumber(customer.getCustomerPhoneNumber())
-                    .customerId(customer.getUserId())
+                    .userId(customer.getUserId())
                     .build();
             return customerRepository.save(customer1);
         } catch (Exception e) {
-            // Handle the exception or log it
+
             logger.error("Error saving customer: {}", customer, e);
             return null;
         }
